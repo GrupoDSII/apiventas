@@ -14,8 +14,6 @@ router.get('/',async (req,res) => {
 
 router.post('/',controlValidar(crearProductoSchema, 'params'), async(req,res) => {
   try {
-    const {nombre}= req.params;
-    const {producto}= req.params;
     const body = await req.body;
   servicio.create(body);
   res.status(200).json({
@@ -30,7 +28,7 @@ router.post('/',controlValidar(crearProductoSchema, 'params'), async(req,res) =>
 
 });
 
-router.put('/:id',controlValidar,async(req,res,) => {
+router.put('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req,res,) => {
   const { id }= req.params;
   try {
     const body = req.body;
@@ -51,7 +49,9 @@ router.patch('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req
     const producto =await servicio.updateParcial(id,body);
     res.status(200).json(producto);
   } catch (error) {
-    next(error);
+    res.status(404).json({
+      mensaje: error.message
+    });
   }
 
 });
@@ -62,7 +62,9 @@ router.delete('/:id',controlValidar(eliminarProductosSchema,'params' ),(req,res)
   const salida = servicio.delete(id);
   res.json(salida);
   } catch (error) {
-    next(error);
+    res.status(404).json({
+      mensaje: error.message
+    });
   }
 
 });
