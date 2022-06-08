@@ -2,7 +2,7 @@ const express = require("express");
 
 const ProductosService = require("../service/productos.service");
 const controlValidar = require("../middlewares/validar.middleware");
-const {crearProductoSchema,actualizarProductoSchema,findByProductoSchema} = require("../schemas/producto.schemas")
+const {crearProductoSchema,actualizarProductoSchema,findByProductoSchema, eliminarProductosSchema} = require("../schemas/producto.schemas")
 
 const servicio = new ProductosService();
 const router= express.Router();
@@ -56,10 +56,15 @@ router.patch('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req
 
 });
 
-router.delete('/:id',(req,res) => {
-  const { id }= req.params;
+router.delete('/:id',controlValidar(eliminarProductosSchema,'params' ),(req,res) => {
+  try {
+    const { id }= req.params;
   const salida = servicio.delete(id);
   res.json(salida);
+  } catch (error) {
+    next(error);
+  }
+
 });
 
 

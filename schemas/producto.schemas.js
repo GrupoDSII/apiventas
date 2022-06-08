@@ -15,9 +15,13 @@ const actualizarProductoSchema = Joi.object({
   precio
 });
 
+const eliminarProductosSchema = Joi.object({
+  id : id.required()
+});
+
 
 const findByProductoSchema = Joi.object({
   id : id.required()
 });
 
-module.exports = {crearProductoSchema,actualizarProductoSchema,findByProductoSchema};
+module.exports = {crearProductoSchema,actualizarProductoSchema,eliminarProductosSchema,findByProductoSchema};
