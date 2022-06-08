@@ -13,7 +13,7 @@ class ProductosService {
     for (let index = 0;index <size; index ++){
       this.productos.push({
         id:faker.datatype.uuid(),
-        nombre: faker.commerce.productName(),
+        nombreFunko: faker.commerce.productName(),
         precio: parseInt(faker.commerce.price()),
         imagen: faker.image.imageUrl(),
         esVisible : faker.datatype.boolean()
@@ -22,15 +22,19 @@ class ProductosService {
   }
 
   create(producto){
-    //const error = this.actualiza();
-    producto.id = faker.datatype.uuid();
+    const pre = producto.precio;
+    if (pre < 10) {
+      throw boom.notFound("El monto es demasiado bajo");
+    } else {
+      producto.id = faker.datatype.uuid();
     this.productos.push(producto);
+    }
   }
 
   update(id,producto){
     const posicion = this.productos.findIndex(item =>item.id == id);
     if (posicion === -1) {
-      throw boom.notFound("Producto no encontra");
+      throw boom.notFound("Producto no encontrado");
     }
     this.productos[posicion] =producto;
     return this.productos[posicion];
@@ -66,7 +70,7 @@ class ProductosService {
     setTimeout(() =>{
       resolve (this.productos);
     },
-      5000)
+      1000)
    });
   }
 

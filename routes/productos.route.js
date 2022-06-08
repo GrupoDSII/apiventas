@@ -12,16 +12,25 @@ router.get('/',async (req,res) => {
   res.status(200).json(productos);
 });
 
-router.post('/',(req,res) => {
-  const body = req.body;
+router.post('/',controlValidar(crearProductoSchema, 'params'), async(req,res) => {
+  try {
+    const {nombre}= req.params;
+    const {producto}= req.params;
+    const body = await req.body;
   servicio.create(body);
   res.status(200).json({
     mensaje:"Registro exitoso",
     datos : body
   });
+  } catch (error) {
+    res.status(404).json({
+      mensaje: error.message
+    });
+  }
+
 });
 
-router.put('/:id',async(req,res,) => {
+router.put('/:id',controlValidar,async(req,res,) => {
   const { id }= req.params;
   try {
     const body = req.body;
@@ -35,16 +44,13 @@ router.put('/:id',async(req,res,) => {
 
 });
 
-router.patch('/:id',async(req,res, next) => {
+router.patch('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req,res, next) => {
   try {
     const { id }= req.params;
     const body = req.body;
     const producto =await servicio.updateParcial(id,body);
     res.status(200).json(producto);
   } catch (error) {
-    /* res.status(404).json({
-      mensaje: error.message
-    }); */
     next(error);
   }
 
