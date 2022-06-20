@@ -12,23 +12,17 @@ router.get('/',async (req,res) => {
   res.status(200).json(productos);
 });
 
-router.post('/',controlValidar(crearProductoSchema, 'params'), async(req,res) => {
+router.post('/',controlValidar(crearProductoSchema, 'params'), async(req,res,next) => {
   try {
-    const body = await req.body;
-  servicio.create(body);
-  res.status(200).json({
-    mensaje:"Registro exitoso",
-    datos : body
-  });
+    const body = req.body;
+  const producto = await servicio.create(body);
+  res.status(200).json(producto);
   } catch (error) {
-    res.status(404).json({
-      mensaje: error.message
-    });
+    next(error);
   }
-
 });
 
-router.put('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req,res,) => {
+router.put('/:id',controlValidar(actualizarProductoSchema,'body' ),async(req,res,) => {
   const { id }= req.params;
   try {
     const body = req.body;

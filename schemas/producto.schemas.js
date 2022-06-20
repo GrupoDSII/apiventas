@@ -1,17 +1,17 @@
 const Joi = require("joi");
 
 const id = Joi.string().uuid();
-const nombre = Joi.string().alphanum().min(3).max(30);
-const precio = Joi.number().integer().min(5).max(200);
+const nombreFunko = Joi.string().min(3).max(30);
+const precio = Joi.number().min(5).max(200);
 
 const crearProductoSchema = Joi.object({
-  nombre : nombre,
+  nombreFunko : nombreFunko,
   precio : precio
 });
 
 const actualizarProductoSchema = Joi.object({
   id : id.required(),
-  nombre,
+  nombreFunko,
   precio
 });
 

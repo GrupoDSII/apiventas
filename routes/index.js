@@ -3,6 +3,7 @@ const express = require('express');
 const productosRouter = require('./productos.route')
 const categoriasRouter = require('./categorias.route')
 const clientesRouter = require('./clientes.route');
+const tiendasRouter = require('./tiendas.route');
 
 function rutas(app){
   app.get('/',(req,res) => {
@@ -12,6 +13,7 @@ function rutas(app){
   app.use('/api/v1',router);
   router.use('/productos',productosRouter);
   router.use('/categorias',categoriasRouter);
+  router.use('/tiendas',tiendasRouter);
   router.use('/clientes',clientesRouter);
 }
 
