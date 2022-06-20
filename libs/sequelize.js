@@ -5,7 +5,7 @@ const user = 'usuario01';
 const host = 'localhost';
 const port = 5432;
 const password = '1234';
-const database = 'bdfunko';
+const database = 'a001';
 
 const USUARIO = encodeURIComponent(user);
 const PASSWORD = encodeURIComponent(password);
