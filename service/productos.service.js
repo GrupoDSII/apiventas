@@ -6,11 +6,13 @@ const { query } = require("express");
 //const getConnection = require("../libs/postgres");
 
 //const pool = require("../libs/postgres.pool");
-const sequelize = require("../libs/sequelize");
+const { models } = require("../libs/sequelize");
+
 
 class ProductosService {
 
   constructor() {
+
     //this.productos = [];
     //this.generarDatos();
     // this.pool = pool;
@@ -42,27 +44,46 @@ class ProductosService {
       id: crypto.randomUUID(),
       ...producto
     }
-    const {id, nombreFunko, precio} = nuevoProducto;
-    const query = "insert into productos (id,nombreFunko,precio) values ('"+id+"',' " + nombreFunko + "', " + precio + ")";
-    await sequelize.query(query);
+    const {id,nombrefunko,precio} = nuevoProducto;
+    const salida = await models.producto.create(nuevoProducto);
+    //const query = "insert into productos (id,nombrefunko,precio) values ('"+id+"',' "+nombrefunko+"', " + precio + ")";
+    // await sequelize.query(query);
     // const cliente = await getConnection();
     // await cliente.query("insert into productos (id,nombreFunko,precio) values ('"+id+"',' " + nombreFunko + "', " + precio + ")");
 
-    return nuevoProducto;
+    return salida;
   }
 
   async update(id,producto){
-
+    // const nuevoProducto = {
+    //   ...producto
+    // }
+    // const {nombrefunko,precio} = nuevoProducto;
+    // const salida = await models.producto.update({nuevoProducto},{
+    //   where: {
+    //     id: id
+    //   }
+    // })
+    // ;
     // const posicion = this.productos.findIndex(item =>item.id == id);
     // if (posicion === -1) {
     //   throw boom.notFound("Producto no encontrado");
     // }
     // this.productos[posicion] =producto;
     // return this.productos[posicion];
-    return producto;
+    return salida;
   }
 
   async updateParcial(id,productoParcial){
+    const nuevoProducto = {
+      ...productoParcial
+    }
+    const {nombrefunko,precio} = nuevoProducto;
+    const salida = await models.producto.update({nuevoProducto},{
+      where: {
+        id: id
+      }
+    });
     // const posicion = this.productos.findIndex(item =>item.id == id);
     // if (posicion === -1) {
     //   throw boom.notFound("Producto no encontradoooo");
@@ -73,10 +94,16 @@ class ProductosService {
     //   ...productoParcial
     // };
     // return this.productos[posicion];
-    return productoParcial;
+    return salida;
   }
 
-  delete(id){
+  async delete(id){
+    const salida = await models.producto.destroy({
+      where: {
+        id: id
+      }
+    })
+    ;
     // const posicion = this.productos.findIndex(item =>item.id == id);
     // if (posicion === -1) {
     //   throw boom.notFound("Producto no encontra");
@@ -86,25 +113,27 @@ class ProductosService {
     //   mensaje : "operacion realizada",
     //   id
     // };
-    return id;
+    return salida
   }
 
   async findAll(){
-  //   return new Promise((resolve,reject)=>{
+    const data = await models.producto.findAll();
+  //   return new Promise((resolve,reject)=>{()
   //   setTimeout(() =>{
   //     resolve (this.productos);
   //   },
   //     1000)
   //  });
   //Base de datos//
-  const query = 'select * from productos';
-  const [data] = await sequelize.query(query);
+  //const query = 'select * from productos';
+  //const data = await this.producto.findAll();
   // const cliente = await getConnection();
   // const salida = await cliente.query('select * from productos');
   return data;
   }
 
-  findBy(id){
+  async findBy(id){
+    const data = await models.producto.findByPk(id);
     // const producto = this.productos.find(item =>item.id === id);
     // if (!producto){
     //   throw boom.notFound("Producto no encontrado");
@@ -113,7 +142,7 @@ class ProductosService {
     //   throw boom.forbidden("Producto no accesible");
     // }
     // return producto;
-    return id;
+    return data;
   }
 
 }

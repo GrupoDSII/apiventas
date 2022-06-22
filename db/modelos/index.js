@@ -17,6 +17,7 @@ function setupModels(sequelize) {
 
   Tienda.associate(sequelize.models);
   Detallev.associate(sequelize.models);
+  Producto.associate(sequelize.models);
 }
 
 module.exports = { setupModels };

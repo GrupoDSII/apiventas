@@ -50,17 +50,14 @@ router.patch('/:id',controlValidar(actualizarProductoSchema,'params' ),async(req
 
 });
 
-router.delete('/:id',controlValidar(eliminarProductosSchema,'params' ),(req,res) => {
+router.delete('/:id',controlValidar(eliminarProductosSchema,'params' ),async(req,res,next) => {
   try {
-    const { id }= req.params;
+  const { id }= req.params;
   const salida = servicio.delete(id);
   res.json(salida);
-  } catch (error) {
-    res.status(404).json({
-      mensaje: error.message
-    });
-  }
-
+} catch (error) {
+  next(error);
+}
 });
 
 

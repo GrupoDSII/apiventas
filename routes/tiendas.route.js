@@ -12,7 +12,7 @@ router.get('/',async (req,res) => {
   res.status(200).json(tiendas);
 });
 
-router.post('/',controlValidar(crearTiendaSchema, 'params'), async(req,res) => {
+router.post('/',controlValidar(crearTiendaSchema, 'body'), async(req,res) => {
   try {
     const body = await req.body;
   servicio.create(body);

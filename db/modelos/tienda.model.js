@@ -27,7 +27,9 @@ const TiendaSchema = {
 
 class Tienda extends Model {
   static associate(){
-
+    // this.hasMany(models.producto,{
+    //   foreignKey: 'tiendaID'
+    // });
   }
 
   static config(sequelize){

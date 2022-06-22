@@ -26,8 +26,8 @@ class TiendasService {
     if (pre < 10) {         //Crear una condicion de tienda para verificar error
       throw boom.notFound("El monto es demasiado bajo");
     } else {
-        producto.id = faker.datatype.uuid();
-        this.productos.push(producto);
+      tienda.id = faker.datatype.uuid();
+        this.tiendas.push(tienda);
     }
   }
 

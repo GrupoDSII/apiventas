@@ -6,7 +6,7 @@ const ProductoSchema = {
     primaryKey : true,
     type: DataTypes.UUID
   },
-  nombreFunko: {
+  nombrefunko: {
     allowNull: false,
     type: DataTypes.STRING,
     unique: true
@@ -39,7 +39,7 @@ const ProductoSchema = {
   tiendaID : {
     type: DataTypes.UUID,
     field : 'tienda_id',
-    allowNull : false,
+    allowNull : true,
     references: {
       model: 'tiendas'
     }
@@ -48,9 +48,9 @@ const ProductoSchema = {
 
 class Producto extends Model {
   static associate(){
-    this.belongsTo(models.tienda,{
-      as: 'tienda'
-    })
+    // this.belongsTo(models.tienda,{
+    //   as: 'tienda'
+    // })
   }
 
   static config(sequelize){
